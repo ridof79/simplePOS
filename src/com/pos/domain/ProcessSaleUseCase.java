@@ -1,13 +1,13 @@
 package com.pos.domain;
 
-import com.pos.domain.factory.CashierRepositoryFactory;
-import com.pos.domain.factory.ItemRepositoryFactory;
-import com.pos.domain.factory.SaleItemRepositoryFactory;
-import com.pos.domain.factory.SaleRepositoryFactory;
-import com.pos.domain.repository.CashierRepository;
-import com.pos.domain.repository.ItemRepository;
-import com.pos.domain.repository.SaleItemRepository;
-import com.pos.domain.repository.SaleRepository;
+import com.pos.factory.CashierRepositoryFactory;
+import com.pos.factory.ItemRepositoryFactory;
+import com.pos.factory.SaleItemRepositoryFactory;
+import com.pos.factory.SaleRepositoryFactory;
+import com.pos.repository.CashierRepository;
+import com.pos.repository.ItemRepository;
+import com.pos.repository.SaleItemRepository;
+import com.pos.repository.SaleRepository;
 
 public class ProcessSaleUseCase {
 	private static SaleItemRepository saleItemRepo = SaleItemRepositoryFactory.getSaleItemRepository();

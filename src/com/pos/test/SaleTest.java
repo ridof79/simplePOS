@@ -1,3 +1,4 @@
+package com.pos.test;
 
 
 import com.pos.domain.CashPayment;

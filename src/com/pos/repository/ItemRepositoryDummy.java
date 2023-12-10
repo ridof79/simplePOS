@@ -1,4 +1,4 @@
-package com.pos.domain.repository;
+package com.pos.repository;
 
 import com.pos.domain.Item;
 

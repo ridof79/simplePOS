@@ -1,7 +1,7 @@
-package com.pos.domain.factory;
+package com.pos.factory;
 
-import com.pos.domain.repository.SaleItemRepository;
-import com.pos.domain.repository.SaleItemRepositoryDummy;
+import com.pos.repository.SaleItemRepository;
+import com.pos.repository.SaleItemRepositoryDummy;
 
 public class SaleItemRepositoryFactory {
 	public static SaleItemRepository getSaleItemRepository(){
