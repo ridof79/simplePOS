@@ -3,9 +3,9 @@ package com.pos.domain;
 public class QrisPayment extends Payment{
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		this.amount = sale.totalPrice();
-		return true;
+		this.isPay = true;
 	}
 	
 	public void generateQR() {

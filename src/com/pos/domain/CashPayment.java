@@ -10,9 +10,9 @@ public class CashPayment extends Payment{
 	}
 
 	@Override
-	public boolean validate() {
+	public void validate() {
 		this.amount = sale.totalPrice();
-		return true;
+		this.isPay = true;
 	}
 
 	public double change() {

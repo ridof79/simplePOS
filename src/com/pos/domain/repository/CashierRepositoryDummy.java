@@ -6,7 +6,7 @@ public class CashierRepositoryDummy implements CashierRepository{
 
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
+		System.out.println("Succesfully add Cashier data!");
 		
 	}
 

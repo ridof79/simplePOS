@@ -1,9 +1,11 @@
 package com.pos.domain;
 
 import com.pos.domain.factory.CashierRepositoryFactory;
+import com.pos.domain.factory.ItemRepositoryFactory;
 import com.pos.domain.factory.SaleItemRepositoryFactory;
 import com.pos.domain.factory.SaleRepositoryFactory;
 import com.pos.domain.repository.CashierRepository;
+import com.pos.domain.repository.ItemRepository;
 import com.pos.domain.repository.SaleItemRepository;
 import com.pos.domain.repository.SaleRepository;
 
@@ -11,19 +13,19 @@ public class ProcessSaleUseCase {
 	private static SaleItemRepository saleItemRepo = SaleItemRepositoryFactory.getSaleItemRepository();
 	private static CashierRepository cashierRepo = CashierRepositoryFactory.getCashierRepository();
 	private static SaleRepository saleRepo = SaleRepositoryFactory.getSaleRepository();
+	private static ItemRepository itemRepo = ItemRepositoryFactory.getItemRepository();
 	
 	public static Sale createNewSale(String saleNumber, String cashierId) {
 		return new Sale(saleNumber, cashierRepo.getCashierById(cashierId));
 	}
 	
 	public static void addSaleItem(Sale sale, String itemCode, int quantity) {
-		sale.addSaleItem(saleItemRepo.save(itemCode, quantity));
+		sale.addSaleItem(saleItemRepo.save(itemRepo.findByItemCode(itemCode), quantity));
 	}
 	
 	public static void makePayment(Sale sale, Payment payment) {
 		sale.setPayment(payment);
 		payment.setSale(sale);
-		payment.validate();
 	}
 	
 	public static void getSale(Sale sale) {
@@ -48,6 +50,7 @@ public class ProcessSaleUseCase {
 	}
 
 	public static void finishSale(Sale sale) {
+		sale.getPayment().validate();
 		saleRepo.save(sale);
 		System.out.println("=============================================================" + "\n");
 		System.out.println("Sale Number  : " + sale.getSaleNumber());

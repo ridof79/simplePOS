@@ -12,7 +12,6 @@ public class SaleRepositoryDummy implements SaleRepository{
 
 	@Override
 	public Sale findByNumber(String number) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
