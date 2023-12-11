@@ -1,33 +1,41 @@
 package com.pos.test;
 
-
-import com.pos.domain.CashPayment;
-import com.pos.domain.ProcessSaleUseCase;
-import com.pos.domain.QrisPayment;
-import com.pos.domain.Sale;
+import com.pos.usecase.ProcessSaleHandler;
 
 public class SaleTest {
 
 	public static void main(String[] args) {
-		Sale sale1 = ProcessSaleUseCase.createNewSale("#1", "01");
-		ProcessSaleUseCase.addSaleItem(sale1, "001", 3);
-		ProcessSaleUseCase.addSaleItem(sale1, "002", 3);
-		ProcessSaleUseCase.addSaleItem(sale1, "003", 2);
-		
-		ProcessSaleUseCase.makePayment(sale1, new QrisPayment());
-		
-		ProcessSaleUseCase.getSale(sale1);
-		ProcessSaleUseCase.finishSale(sale1);
-		
-		Sale sale2 = ProcessSaleUseCase.createNewSale("#2", "02");
-		ProcessSaleUseCase.addSaleItem(sale2, "003", 3);
-		ProcessSaleUseCase.addSaleItem(sale2, "002", 3);
-		ProcessSaleUseCase.addSaleItem(sale2, "005", 2);
-		
-		ProcessSaleUseCase.makePayment(sale2, new CashPayment(200000.0));
-		
-		ProcessSaleUseCase.getSale(sale2);
-		ProcessSaleUseCase.finishSale(sale2);
-	}
 
+	ProcessSaleHandler saleHandler = new ProcessSaleHandler();
+	
+	saleHandler.createNewSale("#1", "01")
+	.addSaleItem("001", 3).addSaleItem("002", 3)
+	.getSale()
+	.makePayment(saleHandler.qris())
+	.finishSale();
+	
+	saleHandler.createNewSale("#2", "02")
+	.addSaleItem("004", 3).addSaleItem("005", 3).addSaleItem("006", 2).addSaleItem("002", 1)
+	.getSale()
+	.makePayment(saleHandler.cash(150000))
+	.finishSale();
+	
+	saleHandler.createNewSale("#2", "02")
+	.addSaleItem("001", 3).addSaleItem("002", 3).addSaleItem("003", 2).addSaleItem("004", 3).addSaleItem("005", 3).addSaleItem("006", 2)
+	.getSale()
+	.makePayment(saleHandler.cash(500000))
+	.finishSale();
+	
+	saleHandler.createNewSale("#1", "01")
+	.addSaleItem("001", 10)
+	.getSale()
+	.makePayment(saleHandler.qris())
+	.finishSale();
+	
+	}
+	
+
+	
+	
+	
 }

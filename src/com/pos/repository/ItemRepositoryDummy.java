@@ -1,5 +1,9 @@
 package com.pos.repository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.pos.domain.Item;
 
 public class ItemRepositoryDummy implements ItemRepository {
@@ -20,7 +24,7 @@ public class ItemRepositoryDummy implements ItemRepository {
 		Item item7 = new Item("007", 32000.0, "Sampoerna Mild", "Rokok", true);
 		Item item8 = new Item("008", 100000.0, "Celana", "Pakaian", true);
 		
-		Item[] items = {item1, item2, item3, item4, item5, item6, item7, item8};
+		List<Item> items = new ArrayList<Item>(Arrays.asList(item1, item2, item3, item4, item5, item6, item7, item8));
 		
 		for(Item item : items) {
 			if (item.getItemCode().equals(itemCode)) {

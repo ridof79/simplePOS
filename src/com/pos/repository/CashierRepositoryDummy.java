@@ -1,5 +1,9 @@
 package com.pos.repository;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import com.pos.domain.Cashier;
 
 public class CashierRepositoryDummy implements CashierRepository{
@@ -15,7 +19,7 @@ public class CashierRepositoryDummy implements CashierRepository{
 		Cashier cashier1 = new Cashier("01", "Andre");
 		Cashier cashier2 = new Cashier("02", "Dimas");
 		
-		Cashier[] cashiers = {cashier1, cashier2};
+		List<Cashier> cashiers = new ArrayList<Cashier>(Arrays.asList(cashier1, cashier2));
 		
 		for(Cashier cashier : cashiers) {
 			if (cashier.getId().equals(id)) {

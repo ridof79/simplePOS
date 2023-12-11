@@ -1,13 +1,14 @@
 package com.pos.domain;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Sale {
 	private String saleNumber;
 	private Cashier cashier;
 	private Date transactionDate = new Date();
-	private SaleItem[] saleItems = new SaleItem[3];
+	private List<SaleItem> saleItems = new ArrayList<SaleItem>();
 	private Payment payment;
 	private Taxable tax;
 		
@@ -18,16 +19,11 @@ public class Sale {
 	}
 	
 	public void addSaleItem(SaleItem saleItem) {
-		for(int i=0 ; i < saleItems.length ; i++) {
-			if(saleItems[i] == null) {
-				saleItems[i] = saleItem;
-				break;
-			}
-		}
+		saleItems.add(saleItem);
 	}
 	
-	public SaleItem[] getSaleItem() {
-		return Arrays.copyOf(saleItems, saleItems.length);
+	public List<SaleItem> getSaleItem() {
+		return new ArrayList<SaleItem>(saleItems);
 	}
 	
 	public double totalPrice() {
@@ -71,13 +67,8 @@ public class Sale {
 		return transactionDate;
 	}
 
-	public SaleItem[] getSaleItems() {
-		return saleItems;
-	}
-
 	public Payment getPayment() {
 		return payment;
 	}
 	
-
 }
