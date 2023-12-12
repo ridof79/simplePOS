@@ -1,0 +1,8 @@
+001,5000.0,Aqua,Minuman,false
+002,15000.0,Beras,Makanan,true
+003,10000.0,Telur,Minuman,false
+004,20000.0,Kopi,Makanan,true
+005,50000.0,Baju,Pakaian,true
+006,30000.0,Marlboro,Rokok,true
+007,32000.0,Sampoerna Mild,Rokok,true
+008,100000.0,Celana,Pakaian,true

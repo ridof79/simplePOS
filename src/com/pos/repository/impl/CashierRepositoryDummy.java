@@ -1,10 +1,11 @@
-package com.pos.repository;
+package com.pos.repository.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.pos.domain.Cashier;
+import com.pos.repository.CashierRepository;
 
 public class CashierRepositoryDummy implements CashierRepository{
 

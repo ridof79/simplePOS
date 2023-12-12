@@ -1,7 +1,8 @@
-package com.pos.repository;
+package com.pos.repository.impl;
 
 import com.pos.domain.Item;
 import com.pos.domain.SaleItem;
+import com.pos.repository.SaleItemRepository;
 
 public class SaleItemRepositoryDummy implements SaleItemRepository{
 	
