@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.pos.domain.Cashier;
+import com.pos.exception.RepositoryException;
 import com.pos.repository.CashierRepository;
 
 public class CashierRepositoryDummy implements CashierRepository{
@@ -16,7 +17,7 @@ public class CashierRepositoryDummy implements CashierRepository{
 	}
 
 	@Override
-	public Cashier getCashierById(String id) {
+	public Cashier findCashierByID(String id) {
 		Cashier cashier1 = new Cashier("01", "Andre");
 		Cashier cashier2 = new Cashier("02", "Dimas");
 		
@@ -27,6 +28,12 @@ public class CashierRepositoryDummy implements CashierRepository{
 				return cashier;
 			}
 		}
+		return null;
+	}
+
+	@Override
+	public List<Cashier> findAll() throws RepositoryException {
+		// TODO Auto-generated method stub
 		return null;
 	}
 

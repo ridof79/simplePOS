@@ -1,6 +1,5 @@
 package com.pos.usecase;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,18 +29,22 @@ public class ProcessSaleHandler {
 	private ItemRepository itemRepo;
 	
 	public ProcessSaleHandler() throws HandlerException {
-		 saleItemRepo = SaleItemRepositoryFactory.getSaleItemRepository();
-		 cashierRepo = CashierRepositoryFactory.getCashierRepository();
-		 saleRepo = SaleRepositoryFactory.getSaleRepository();
 		 try {
+			saleItemRepo = SaleItemRepositoryFactory.getSaleItemRepository();
+			saleRepo = SaleRepositoryFactory.getSaleRepository();
+			cashierRepo = CashierRepositoryFactory.getCashierRepository();
 			itemRepo = ItemRepositoryFactory.getItemRepository();
 		} catch (RepositoryException e) {
 			throw new HandlerException(e.getMessage());
 		}
 	}
 
-	public ProcessSaleHandler createNewSale(String saleNumber, String cashierId) {
-		sale = new Sale(saleNumber, cashierRepo.getCashierById(cashierId));
+	public ProcessSaleHandler createNewSale(String saleNumber, String cashierId) throws HandlerException {
+		try {
+			sale = new Sale(saleNumber, cashierRepo.findCashierByID(cashierId));
+		} catch (RepositoryException e) {
+			throw new HandlerException("Failed get cashier!");
+		}
 		return this;
 	}
 	
