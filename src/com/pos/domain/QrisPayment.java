@@ -14,7 +14,7 @@ public class QrisPayment extends Payment{
 
 	@Override
 	public void finishSale() {
-		System.out.println("Payment (QRIS) : " + amount);
+		System.out.println("Payment (QRIS) : " + amount + "\n");
 	}
 
 }

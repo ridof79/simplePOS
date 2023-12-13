@@ -1,14 +1,21 @@
 package com.pos.usecase;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.pos.domain.CashPayment;
 import com.pos.domain.Payment;
 import com.pos.domain.QrisPayment;
 import com.pos.domain.Sale;
 import com.pos.domain.SaleItem;
+import com.pos.exception.HandlerException;
+import com.pos.exception.RepositoryException;
 import com.pos.factory.CashierRepositoryFactory;
 import com.pos.factory.ItemRepositoryFactory;
 import com.pos.factory.SaleItemRepositoryFactory;
 import com.pos.factory.SaleRepositoryFactory;
+import com.pos.misc.TableGenerator;
 import com.pos.repository.CashierRepository;
 import com.pos.repository.ItemRepository;
 import com.pos.repository.SaleItemRepository;
@@ -22,11 +29,15 @@ public class ProcessSaleHandler {
 	private SaleRepository saleRepo;
 	private ItemRepository itemRepo;
 	
-	public ProcessSaleHandler() {
+	public ProcessSaleHandler() throws HandlerException {
 		 saleItemRepo = SaleItemRepositoryFactory.getSaleItemRepository();
 		 cashierRepo = CashierRepositoryFactory.getCashierRepository();
 		 saleRepo = SaleRepositoryFactory.getSaleRepository();
-		 itemRepo = ItemRepositoryFactory.getItemRepository();
+		 try {
+			itemRepo = ItemRepositoryFactory.getItemRepository();
+		} catch (RepositoryException e) {
+			throw new HandlerException(e.getMessage());
+		}
 	}
 
 	public ProcessSaleHandler createNewSale(String saleNumber, String cashierId) {
@@ -34,8 +45,12 @@ public class ProcessSaleHandler {
 		return this;
 	}
 	
-	public ProcessSaleHandler addSaleItem(String itemCode, int quantity) {
-		sale.addSaleItem(saleItemRepo.save(itemRepo.findByItemCode(itemCode), quantity));
+	public ProcessSaleHandler addSaleItem(String itemCode, int quantity) throws HandlerException {
+		try {
+			sale.addSaleItem(saleItemRepo.save(itemRepo.findByItemCode(itemCode), quantity));
+		} catch (RepositoryException e) {
+			throw new HandlerException("Failed add sale item");
+		}
 		return this;
 	}
 	
@@ -46,50 +61,48 @@ public class ProcessSaleHandler {
 	}
 	
 	public ProcessSaleHandler getSale() {
-		System.out.println("=============================================================" + "\n");
 		System.out.println("Sale Number  : " + sale.getSaleNumber());
 		System.out.println("Cashier  : " + sale.getCashier().getName());
 		System.out.println("Date  : " + sale.getTransactionDate().toString());
 		
 		System.out.println("Item  : ");		
-		for(SaleItem saleItem : sale.getSaleItem()) {
-			if (saleItem != null) {
-			System.out.println("Item Code : " + saleItem.getItem().getItemCode() + " | Description : " + saleItem.getItem().getDescription() 
-					+ " | Type : " + saleItem.getItem().getType() + " | Price : " + saleItem.getPrice() + " | Quantity : " + saleItem.getQuantity()
-					+ " | Total Price : " + saleItem.totalPrice());
-			}		
-		}
 		
+        TableGenerator tableGenerator = new TableGenerator();
+        List<String> headersList = new ArrayList<>(); 
+        headersList.add("Item Code");
+        headersList.add("Description");
+        headersList.add("Type");
+        headersList.add("Price");
+        headersList.add("Quantity");
+        headersList.add("Total Price");
+        
+        List<List<String>> rowsList = new ArrayList<>();
+        
+        for(SaleItem saleItem : sale.getSaleItem()) {
+            List<String> row = new ArrayList<>();
+            row.add(saleItem.getItem().getItemCode());
+            row.add(saleItem.getItem().getDescription());
+            row.add(saleItem.getItem().getType());
+            row.add("" + saleItem.getPrice());
+            row.add("" + saleItem.getQuantity());
+            row.add("" + saleItem.totalPrice());
+            rowsList.add(row);
+        }
+        System.out.println(tableGenerator.generateTable(headersList, rowsList));
+    	
 		System.out.println("Total Price : " + sale.totalPriceWithoutTax() );
 		System.out.println("Tax : " + (sale.totalPrice()-sale.totalPriceWithoutTax()));
-		System.out.println("Total Price + Tax : " + sale.totalPrice() + "\n");
-		System.out.println("=============================================================");
+		System.out.println("Total Price + Tax : " + sale.totalPrice());
 		return this;
 	}
 
 	public ProcessSaleHandler finishSale() {
+		System.out.println("\n" + "=============================================================" + "\n");
 		sale.getPayment().validate();
 		saleRepo.save(sale);
-		System.out.println("=============================================================" + "\n");
-		System.out.println("Sale Number  : " + sale.getSaleNumber());
-		System.out.println("Cashier  : " + sale.getCashier().getName());
-		System.out.println("Date  : " + sale.getTransactionDate().toString());
-		
-		System.out.println("Item  : ");		
-		for(SaleItem saleItem : sale.getSaleItem()) {
-			if (saleItem != null) {
-			System.out.println("Item Code : " + saleItem.getItem().getItemCode() + " | Description : " + saleItem.getItem().getDescription() 
-					+ " | Type : " + saleItem.getItem().getType() + " | Price : " + saleItem.getPrice() + " | Quantity : " + saleItem.getQuantity()
-					+ " | Total Price : " + saleItem.totalPrice());
-			}		
-		}
-		
-		System.out.println("Total Price : " + sale.totalPriceWithoutTax() );
-		System.out.println("Tax : " + (sale.totalPrice()-sale.totalPriceWithoutTax()));
-		System.out.println("Total Price + Tax : " + sale.totalPrice() + "\n");
-		
+		getSale();
 		sale.getPayment().finishSale();
-		System.out.println("=============================================================");
+		System.out.println("=============================================================" + "\n");
 		return this;
 	}
 	

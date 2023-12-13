@@ -8,13 +8,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.pos.domain.Item;
+import com.pos.exception.RepositoryException;
 import com.pos.repository.ItemRepository;
 
 public class ItemRepositoryFile implements ItemRepository{
 	
 	private List<Item> items = new ArrayList<Item>();
 	
-	public ItemRepositoryFile() {
+	public ItemRepositoryFile() throws RepositoryException {
 		try {
 			BufferedReader bufferedReader = new BufferedReader (new FileReader("items.txt"));
 			String item;
@@ -25,11 +26,11 @@ public class ItemRepositoryFile implements ItemRepository{
 			}
 			bufferedReader.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();			
+			throw new RepositoryException("File not found!");			
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new RepositoryException("File corrupt!");		
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RepositoryException();		
 		}
 	}
 
@@ -59,6 +60,12 @@ public class ItemRepositoryFile implements ItemRepository{
 			}
 		}	
 		return null;
+	}
+
+	@Override
+	public List<Item> findAll() throws RepositoryException {
+		return items;
+
 	}
 
 }

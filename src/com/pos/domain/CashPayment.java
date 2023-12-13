@@ -22,6 +22,6 @@ public class CashPayment extends Payment{
 	@Override
 	public void finishSale() {
 		System.out.println("Payment (Cash) : " + cashInHand);
-		System.out.println("Change : " + change());
+		System.out.println("Change : " + change() + "\n");
 	}
 }
