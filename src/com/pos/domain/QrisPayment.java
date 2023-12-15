@@ -16,5 +16,6 @@ public class QrisPayment extends Payment{
 	public void finishSale() {
 		System.out.println("Payment (QRIS) : " + amount + "\n");
 	}
+	
 
 }

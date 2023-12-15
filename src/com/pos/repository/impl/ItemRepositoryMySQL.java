@@ -1,5 +1,6 @@
 package com.pos.repository.impl;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -11,15 +12,8 @@ import com.pos.exception.RepositoryException;
 import com.pos.repository.ItemRepository;
 
 public class ItemRepositoryMySQL implements ItemRepository{
+	
 	private List<Item> items = new ArrayList<Item>();
-		
-	public ItemRepositoryMySQL() throws RepositoryException {
-		try {
-			DBConnection.connect();
-		} catch (DBConnectionException e) {
-			throw new RepositoryException("Cannot connect to database");
-		}
-	}
 	
 	private boolean taxableCheck(int taxable) {
 		boolean isTaxable = false;
@@ -32,8 +26,8 @@ public class ItemRepositoryMySQL implements ItemRepository{
 	@Override
 	public Item findByItemCode(String itemCode) throws RepositoryException {
 		Item item = null;
-		try {
-			ResultSet resultSet = DBConnection.executeQuery("SELECT * FROM item WHERE item_code ="+ itemCode);
+		try (Connection connection = DBConnection.conn()) {
+			ResultSet resultSet = DBConnection.executeQuery(connection ,"SELECT * FROM item WHERE item_code ="+ itemCode);
 			while(resultSet.next()) {
 				item = new Item(
 						resultSet.getString("item_code"), 
@@ -50,11 +44,13 @@ public class ItemRepositoryMySQL implements ItemRepository{
 		return item;
 	}
 
+
+
 	@Override
 	public List<Item> findAll() throws RepositoryException {
 		ResultSet resultSet;
-		try {
-			resultSet = DBConnection.executeQuery("SELECT * FROM item");
+		try (Connection connection = DBConnection.conn()){
+			resultSet = DBConnection.executeQuery(connection, "SELECT * FROM item");
 			while(resultSet.next()) {
 				items.add(new Item(
 						resultSet.getString("item_code"), 

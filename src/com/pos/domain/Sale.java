@@ -18,6 +18,13 @@ public class Sale {
 		this.tax = new Taxable();
 	}
 	
+	public Sale(String saleNumber, java.sql.Date date, Cashier cashier) {
+		this.saleNumber = saleNumber;
+		this.cashier = cashier;
+		this.tax = new Taxable();
+		this.transactionDate = date;
+	}
+
 	public void addSaleItem(SaleItem saleItem) {
 		saleItems.add(saleItem);
 	}
@@ -70,5 +77,11 @@ public class Sale {
 	public Payment getPayment() {
 		return payment;
 	}
+
+	public void setSaleItems(List<SaleItem> saleItems) {
+		this.saleItems = saleItems;
+	}
+	
+	
 	
 }

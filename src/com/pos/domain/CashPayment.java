@@ -9,6 +9,10 @@ public class CashPayment extends Payment{
 		change();
 	}
 
+	public double getCashInHand() {
+		return cashInHand;
+	}
+
 	@Override
 	public void validate() {
 		this.amount = sale.totalPrice();

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.pos.domain.CashPayment;
+import com.pos.domain.Cashier;
 import com.pos.domain.Payment;
 import com.pos.domain.QrisPayment;
 import com.pos.domain.Sale;
@@ -43,7 +44,7 @@ public class ProcessSaleHandler {
 		try {
 			sale = new Sale(saleNumber, cashierRepo.findCashierByID(cashierId));
 		} catch (RepositoryException e) {
-			throw new HandlerException("Failed get cashier!");
+			throw new HandlerException(e.getMessage());
 		}
 		return this;
 	}
@@ -99,14 +100,19 @@ public class ProcessSaleHandler {
 		return this;
 	}
 
-	public ProcessSaleHandler finishSale() {
+	public void finishSale() throws HandlerException {
 		System.out.println("\n" + "=============================================================" + "\n");
 		sale.getPayment().validate();
-		saleRepo.save(sale);
+		
+		try {
+			saleRepo.save(sale);
+		} catch (RepositoryException e) {
+			throw new HandlerException(e.getMessage());
+		}
+		
 		getSale();
 		sale.getPayment().finishSale();
-		System.out.println("=============================================================" + "\n");
-		return this;
+		System.out.println("=============================================================" + "\n");	
 	}
 	
 	public Payment qris() {
@@ -115,5 +121,21 @@ public class ProcessSaleHandler {
 	
 	public Payment cash(int amount) {
 		return new CashPayment(amount);
+	}
+	
+	public void addCashier(Cashier cashier) throws HandlerException {
+		try {
+			cashierRepo.save(cashier);
+		} catch (RepositoryException e) {
+			throw new HandlerException(e.getMessage());
+		}
+	}
+	
+	public Sale findSaleByNumber(String number) throws HandlerException {
+		try {
+			return saleRepo.findByNumber(number);
+		} catch (RepositoryException e) {
+			throw new HandlerException(e.getMessage());
+		}
 	}
 }

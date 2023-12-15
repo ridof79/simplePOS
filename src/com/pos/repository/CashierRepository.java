@@ -6,7 +6,7 @@ import com.pos.domain.Cashier;
 import com.pos.exception.RepositoryException;
 
 public interface CashierRepository {
-	void save();
+	void save(Cashier cashier) throws RepositoryException;
 	Cashier findCashierByID(String id) throws RepositoryException;
 	List<Cashier> findAll() throws RepositoryException;
 

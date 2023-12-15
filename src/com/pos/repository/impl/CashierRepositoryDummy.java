@@ -11,7 +11,7 @@ import com.pos.repository.CashierRepository;
 public class CashierRepositoryDummy implements CashierRepository{
 
 	@Override
-	public void save() {
+	public void save(Cashier cashier) {
 		System.out.println("Succesfully add Cashier data!");
 		
 	}

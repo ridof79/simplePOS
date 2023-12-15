@@ -12,4 +12,8 @@ public abstract class Payment {
 	public abstract void validate();
 	
 	public abstract void finishSale();
+	
+	public double getAmount() {
+		return this.amount;
+	}
 }
