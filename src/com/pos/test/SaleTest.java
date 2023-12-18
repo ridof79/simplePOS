@@ -16,31 +16,33 @@ public class SaleTest {
 		.getSale()
 		.makePayment(saleHandler.qris())
 		.finishSale();
-//		
-//		saleHandler.createNewSale("#2", "02")
-//		.addSaleItem("004", 3).addSaleItem("005", 3).addSaleItem("006", 2).addSaleItem("002", 1)
-//		.getSale()
-//		.makePayment(saleHandler.cash(150000))
-//		.finishSale();
-//	
-//		saleHandler.createNewSale("#3", "02")
-//		.addSaleItem("001", 3).addSaleItem("002", 3).addSaleItem("003", 2).addSaleItem("004", 3).addSaleItem("005", 3).addSaleItem("006", 2)
-//		.getSale()
-//		.makePayment(saleHandler.cash(500000))
-//		.finishSale();
-//	
-//		saleHandler.createNewSale("#4", "01")
-//		.addSaleItem("001", 10)
-//		.getSale()
-//		.makePayment(saleHandler.qris())
-//		.finishSale();
-//		
-//		saleHandler.createNewSale("#5", "02")
-//		.addSaleItem("006", 10).addSaleItem("001", 10)
-//		.getSale()
-//		.makePayment(saleHandler.qris())
-//		.finishSale();
 		
+		saleHandler.createNewSale("#2", "02")
+		.addSaleItem("004", 3).addSaleItem("005", 3).addSaleItem("006", 2).addSaleItem("002", 1)
+		.getSale()
+		.makePayment(saleHandler.cash(150000))
+		.finishSale();
+	
+		saleHandler.createNewSale("#3", "02")
+		.addSaleItem("001", 3).addSaleItem("002", 3).addSaleItem("003", 2).addSaleItem("004", 3).addSaleItem("005", 3).addSaleItem("006", 2)
+		.getSale()
+		.makePayment(saleHandler.cash(500000))
+		.finishSale();
+	
+		saleHandler.createNewSale("#4", "01")
+		.addSaleItem("001", 10)
+		.getSale()
+		.makePayment(saleHandler.qris())
+		.finishSale();
+		
+		saleHandler.createNewSale("#6", "02")
+		.addSaleItem("006", 10).addSaleItem("001", 10)
+		.getSale()
+		.makePayment(saleHandler.qris())
+		.finishSale();
+		
+		
+		// Get Sale from DB
 		Sale sale = saleHandler.findSaleByNumber("#2");
 		System.out.println(sale.getCashier().getName());
 		System.out.println(sale.getSaleNumber());

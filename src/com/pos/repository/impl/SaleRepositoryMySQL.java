@@ -7,12 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.pos.db.DBConnection;
 import com.pos.domain.CashPayment;
 import com.pos.domain.QrisPayment;
 import com.pos.domain.Sale;
 import com.pos.domain.SaleItem;
+import com.pos.exception.DBConnectionException;
 import com.pos.exception.RepositoryException;
 import com.pos.factory.CashierRepositoryFactory;
 import com.pos.factory.ItemRepositoryFactory;
@@ -63,6 +63,8 @@ public class SaleRepositoryMySQL implements SaleRepository{
 		}
 		catch (SQLException e) {
 		    throw new RepositoryException(e.getMessage());
+		} catch (DBConnectionException e) {
+		    throw new RepositoryException(e.getMessage());
 		}
 
 	}
@@ -96,6 +98,8 @@ public class SaleRepositoryMySQL implements SaleRepository{
 			
 		} catch (SQLException e) {
 			throw new RepositoryException(e.getMessage());
+		} catch (DBConnectionException e) {
+		    throw new RepositoryException(e.getMessage());
 		}
 	}
 

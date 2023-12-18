@@ -9,8 +9,22 @@ import com.pos.misc.Constant;
 
 public class DBConnection {
 	
-	public static Connection conn() throws SQLException {
-		return DriverManager.getConnection(Constant.JDBC_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+	private Connection conn;
+	
+	public DBConnection() throws DBConnectionException {
+		try {
+			this.conn = DriverManager.getConnection(Constant.JDBC_URL, Constant.DB_USERNAME, Constant.DB_PASSWORD);
+		} catch (SQLException e) {
+			throw new DBConnectionException(e.getMessage());
+		}
+	}
+	
+	public Connection getConn() {
+		return conn;
+	}
+
+	public static Connection conn() throws DBConnectionException {
+		return new DBConnection().getConn();
 	}
 	
 	public static ResultSet executeQuery(Connection connection, String query) throws DBConnectionException {

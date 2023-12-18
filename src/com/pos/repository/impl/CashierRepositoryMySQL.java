@@ -24,6 +24,8 @@ public class CashierRepositoryMySQL implements CashierRepository{
 		}
 		catch (SQLException e) {
 			throw new RepositoryException(e.getMessage());
+		} catch (DBConnectionException e) {
+			throw new RepositoryException(e.getMessage());
 		}
 	}
 

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import com.pos.db.DBConnection;
 import com.pos.domain.Cashier;
 import com.pos.domain.Sale;
+import com.pos.exception.DBConnectionException;
 import com.pos.exception.RepositoryException;
 
 public class DBTest {
@@ -22,6 +23,8 @@ public class DBTest {
 			statement.executeUpdate();
 		}
 		catch (SQLException e) {
+			throw new RepositoryException(e.getMessage());
+		} catch (DBConnectionException e) {
 			throw new RepositoryException(e.getMessage());
 		}
 	}
